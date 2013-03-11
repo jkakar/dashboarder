@@ -18,7 +18,11 @@ module Dashboarder
     def post(path, body, options = {})
       JSON.load(connection.post(options.merge(:path => path, :body => body.to_json, :headers => { 'Content-Type' => 'application/json' })).body)
     end
-    
+
+    def delete(path, options = {})
+      connection.delete(options.merge(:path => path))
+    end
+
     def connect
       uri = URI.parse(@options[:api_url])
       Excon.new(api_url, :headers => { 'Authorization' => 'Basic ' + [api_user.sub('%40', '@') + ':' + api_pass].pack('m').delete(Excon::CR_NL) })
